@@ -5,34 +5,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.example.githubsubmission.api.ApiConfig
 import com.example.githubsubmission.data.SearchUserResponse
 import com.example.githubsubmission.data.User
-import com.example.githubsubmission.database.FavoriteUser
-import com.example.githubsubmission.repository.FavRepository
-import com.example.githubsubmission.utils.SettingPreferences
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-//@HiltViewModel
 class MainViewModel(application: Application) : ViewModel() {
-    private val mFavRepository: FavRepository = FavRepository(application)
-    fun getAllNotes(): LiveData<List<FavoriteUser>> = mFavRepository.getAllFavorites()
-
-//    fun getTheme() = preferences.getThemeSetting().asLiveData()
 
     private val _listUser = MutableLiveData<List<User>>()
     val listUser: MutableLiveData<List<User>> = _listUser
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
-
-    companion object {
-        private const val TAG = "MainViewModel"
-        private const val USER = "m-fahrizal"
-    }
 
     fun setSearch(query: String) {
 
@@ -86,7 +72,8 @@ class MainViewModel(application: Application) : ViewModel() {
         })
     }
 
-//    fun theme(preferences: SettingPreferences) {
-//        preferences.getThemeSetting().asLiveData()
-//    }
+    companion object {
+        private const val TAG = "MainViewModel"
+        private const val USER = "m-fahrizal"
+    }
 }

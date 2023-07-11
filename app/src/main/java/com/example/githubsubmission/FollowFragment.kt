@@ -1,25 +1,16 @@
 package com.example.githubsubmission
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.githubsubmission.adapter.SectionsPagerAdapter
 import com.example.githubsubmission.adapter.UserAdapter
-import com.example.githubsubmission.api.ApiService
 import com.example.githubsubmission.data.User
 import com.example.githubsubmission.databinding.FragmentFollowBinding
 import com.example.githubsubmission.viewmodel.FollowViewModel
-import com.example.githubsubmission.viewmodel.MainViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class FollowFragment : Fragment() {
     private lateinit var binding: FragmentFollowBinding
@@ -70,7 +61,7 @@ class FollowFragment : Fragment() {
         }
     }
 
-    fun setData(followList: List<User>) {
+    private fun setData(followList: List<User>) {
         binding.rvFollow.layoutManager = LinearLayoutManager(requireActivity())
         val followAdapter = UserAdapter(followList)
         binding.rvFollow.adapter = followAdapter
@@ -79,9 +70,4 @@ class FollowFragment : Fragment() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        binding = null
-//    }
 }

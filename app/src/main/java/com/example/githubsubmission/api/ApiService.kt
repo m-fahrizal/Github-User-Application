@@ -6,12 +6,10 @@ import com.example.githubsubmission.data.SearchUserResponse
 import com.example.githubsubmission.data.User
 import retrofit2.Call
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    @Headers("Authorization: token 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")
     @GET("users")
     fun getUser(
         @Query("q") login: String
@@ -36,9 +34,4 @@ interface ApiService {
     fun getFollowers(
         @Path("username") username: String
     ): Call<List<User>>
-
-    @GET("search/users")
-    fun getFavorite(
-        @Query("q") login: String
-    ): Call<SearchUserResponse>
 }

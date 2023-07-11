@@ -1,6 +1,5 @@
 package com.example.githubsubmission.database
 
-import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import androidx.room.*
 
@@ -18,7 +17,4 @@ interface GithubDao {
 
     @Query("SELECT * FROM favorite WHERE username = :username")
     fun getFavoriteUserByUsername(username: String): LiveData<FavoriteUser>
-
-//    @Query("DELETE FROM favorite WHERE id = :id")
-//    fun deleteById(id: Int)
 }

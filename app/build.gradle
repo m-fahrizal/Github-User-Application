@@ -22,7 +22,7 @@ android {
         versionName "1.0"
 
         buildConfigField("String", "GITHUB_URL", '"https://api.github.com/"')
-        buildConfigField("String", "GITHUB_TOKEN", '"token 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"')
+        buildConfigField("String", "GITHUB_TOKEN", '"token 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"')
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

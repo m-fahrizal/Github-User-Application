@@ -5,21 +5,20 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubsubmission.database.FavoriteUser
 import com.example.githubsubmission.repository.FavRepository
-import com.example.githubsubmission.utils.SettingPreferences
 
 class FavoriteViewModel (application: Application) : ViewModel() {
-    private val mFavRepository: FavRepository = FavRepository(application)
+    private val mFavoriteUser: FavRepository = FavRepository(application)
+
     fun insert(favorite: FavoriteUser) {
-        mFavRepository.insert(favorite)
+        mFavoriteUser.insert(favorite)
     }
     fun update(favorite: FavoriteUser) {
-        mFavRepository.update(favorite)
+        mFavoriteUser.update(favorite)
     }
     fun delete(favorite: FavoriteUser) {
-        mFavRepository.delete(favorite)
+        mFavoriteUser.delete(favorite)
     }
 
-    private val mFavoriteUser: FavRepository = FavRepository(application)
     fun getAllFavorites(): LiveData<List<FavoriteUser>> = mFavoriteUser.getAllFavorites()
 }
 

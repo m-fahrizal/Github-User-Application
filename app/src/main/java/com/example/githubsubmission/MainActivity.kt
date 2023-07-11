@@ -3,39 +3,26 @@ package com.example.githubsubmission
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.githubsubmission.adapter.UserAdapter
 import com.example.githubsubmission.data.User
 import com.example.githubsubmission.databinding.ActivityMainBinding
-import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat.getSystemService
-import androidx.core.content.ContextCompat.startActivity
-import androidx.datastore.core.DataStore
-import androidx.datastore.dataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import com.example.githubsubmission.utils.SettingPreferences
-import com.example.githubsubmission.viewmodel.FavoriteViewModel
 import com.example.githubsubmission.viewmodel.MainViewModel
-import com.example.githubsubmission.viewmodel.SettingVMFactory
 import com.example.githubsubmission.viewmodel.ViewModelFactory
-import dagger.hilt.android.AndroidEntryPoint
-
-//@AndroidEntryPoint
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: UserAdapter
     private val TAG: String = "MainActivity"
     private val mainViewModel by viewModels<MainViewModel>() {
         ViewModelFactory.getInstance(application)
@@ -49,13 +36,9 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        val mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
-
-//        mainViewModel = obtainViewModel(this@MainActivity)
-
-        mainViewModel.listUser.observe(this, {
+        mainViewModel.listUser.observe(this) {
             setUserData(it)
-        })
+        }
 
         mainViewModel.findUsers("Dicoding")
 
@@ -64,30 +47,22 @@ class MainActivity : AppCompatActivity() {
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         binding.rvList.addItemDecoration(itemDecoration)
 
-        mainViewModel.isLoading.observe(this, {
+        mainViewModel.isLoading.observe(this) {
             showLoading(it)
-        })
+        }
         mainViewModel.getSearch().observe(this) {
             if (it != null) {
                 showLoading(false)
             }
         }
 
-        if (pref.getBoolean("pref_is_dark") == true){
+        if (pref.getBoolean("pref_is_dark")){
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else{
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
 
-//        fun getTheme() = preferences.getThemeSetting().asLiveData()
-//
-//        mainViewModel.theme().observe(this){
-//            if (it) {
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//            }else{
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//            }
-//        }
+        printLog("Main Activity")
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -141,9 +116,4 @@ class MainActivity : AppCompatActivity() {
     private fun showLoading(isLoading: Boolean) {
         binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
-
-//    private fun obtainViewModel(activity: AppCompatActivity): MainViewModel {
-//        val factory = ViewModelFactory.getInstance(activity.application)
-//        return ViewModelProvider(activity, factory).get(MainViewModel::class.java)
-//    }
 }

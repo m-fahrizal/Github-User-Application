@@ -18,18 +18,11 @@ class DetailViewModel(application: Application): ViewModel() {
     private val mFavRepository: FavRepository = FavRepository(application)
 
     private val _detailUser = MutableLiveData<DetailUserResponse>()
-    val detailUser: MutableLiveData<DetailUserResponse> = _detailUser
 
     private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    companion object {
-        private const val TAG = "DetailViewModel"
-        private const val USER = "m-fahrizal"
-    }
 
     fun setDetail(username: String) {
-        val clientDetail = ApiConfig.getApiService().getDetailUser(username)
+        val clientDetail = ApiConfig.getApiService().getDetailUser(username.filterNot { it.isWhitespace() }.lowercase())
         clientDetail.enqueue(object : Callback<DetailUserResponse> {
             override fun onResponse(
                 call: Call<DetailUserResponse>,
@@ -37,6 +30,9 @@ class DetailViewModel(application: Application): ViewModel() {
             ) {
                 if (response.isSuccessful) {
                     _detailUser.postValue(response.body())
+                    println(username.filterNot { it.isWhitespace() }.lowercase())
+                } else {
+                    println(username.filterNot { it.isWhitespace() }.lowercase())
                 }
             }
             override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
@@ -60,34 +56,4 @@ class DetailViewModel(application: Application): ViewModel() {
     fun getFavoriteByUsername(username: String): LiveData<FavoriteUser> {
         return mFavRepository.getFavoriteByUsername(username)
     }
-
-
-//    fun detailUsers(username: String) {
-//        _isLoading.value = true
-//        val client = ApiConfig.getApiService().getListUsers(username)
-//        client.enqueue(object : Callback<DetailUserResponse> {
-//            override fun onResponse(
-//                call: Call<DetailUserResponse>,
-//                response: Response<DetailUserResponse>
-//            ) {
-//                _isLoading.value = false
-//                if (response.isSuccessful) {
-//                    val responseBody = response.body()
-//                    if (responseBody != null) {
-//                        _detailUser.value = responseBody.detailUser
-//                    }
-//                } else {
-//                    Log.e(TAG, "onFailure: ${response.message()}")
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
-//                _isLoading.value = false
-//                Log.e(TAG, "onFailure: ${t.message.toString()}")
-//            }
-//
-//        })
-//    }
-
-
 }

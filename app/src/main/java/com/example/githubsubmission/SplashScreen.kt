@@ -1,8 +1,8 @@
 package com.example.githubsubmission
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.githubsubmission.databinding.ActivitySplashScreenBinding
 
 class SplashScreen : AppCompatActivity() {

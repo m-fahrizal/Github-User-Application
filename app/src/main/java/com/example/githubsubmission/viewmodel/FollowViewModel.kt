@@ -1,11 +1,9 @@
 package com.example.githubsubmission.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubsubmission.api.ApiConfig
-import com.example.githubsubmission.data.DetailUserResponse
 import com.example.githubsubmission.data.User
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,10 +20,9 @@ class FollowViewModel: ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: MutableLiveData<Boolean> get() = _isLoading
 
-
     fun getFollowing(username: String){
         _isLoading.value = true
-        val clientFollowing = ApiConfig.getApiService().getFollowing(username)
+        val clientFollowing = ApiConfig.getApiService().getFollowing(username.filterNot { it.isWhitespace() }.lowercase())
         clientFollowing.enqueue(object : Callback<List<User>> {
             override fun onResponse(
                 call: Call<List<User>>,
@@ -42,13 +39,9 @@ class FollowViewModel: ViewModel() {
         })
     }
 
-//    fun getFollowing(): LiveData<DetailUserResponse> {
-//        return _following
-//    }
-
     fun getFollowers(username: String){
         _isLoading.value = true
-        val clientFollowers = ApiConfig.getApiService().getFollowers(username)
+        val clientFollowers = ApiConfig.getApiService().getFollowers(username.filterNot { it.isWhitespace() }.lowercase())
         clientFollowers.enqueue(object : Callback<List<User>> {
             override fun onResponse(
                 call: Call<List<User>>,
@@ -64,8 +57,4 @@ class FollowViewModel: ViewModel() {
             }
         })
     }
-
-//    fun getFollowers(): LiveData<DetailUserResponse> {
-//        return _followers
-//    }
 }
